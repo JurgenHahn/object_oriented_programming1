@@ -2,7 +2,7 @@ class Player
 
   attr_reader :gold_coins, :health_points, :lives, :score
 
-  def initialize(gold_coins = 0, health_points = 10, lives = 5, score = 0)
+  def initialize(gold_coins = 0, health_points = 10, lives = 1, score = 0)
     @gold_coins = gold_coins
     @health_points = health_points
     @lives = lives
@@ -10,7 +10,7 @@ class Player
   end
 
   def do_battle
-    if @lives == 0
+    if @lives == 1 && @health_points == 1
       restart
     elsif @health_points == 1
       @lives -= 1
@@ -30,16 +30,16 @@ class Player
     @lives += 1
     @score -= 10
   end
-#fix this code later on
+
   def collect_treasure(treasure)
     @gold_coins += treasure.to_i
 
     if @gold_coins >= 10
-      @score += 1
-      @gold_coins -= 10
-
-      if @score == 10 || @score > 10
-        level_up
+      @score += @gold_coins/10
+      @gold_coins = @gold_coins % 10
+      if @score >= 10
+        (score / 10).times do level_up
+        end
       end
     end
 
